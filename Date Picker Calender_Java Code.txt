@@ -1,0 +1,240 @@
+package com.b2c.qa.pageobjects;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.FindBy;
+
+public class TestDatepicker
+	{
+		static WebDriver driver;
+		private By byperiodbutton = By.className("mat-calendar-period-button mat-button");
+		
+		public static void main(String[] args)
+			{
+				initialize();
+				selectmonthandyear();
+			}
+		
+		public static void initialize()
+			{
+				System.setProperty("webdriver.chrome.driver", "C:\\B2C - Automation Testing project work\\Selenium Resources\\Browser Drivers\\chromedriver.exe");
+				driver = new ChromeDriver();	
+				//driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+				driver.manage().window().maximize();
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				driver.navigate().to("http://13.232.248.121:8181/Search/flights");
+			}
+		
+		public static void selectmonthandyear()
+			{
+			
+			String dep_date, dep_month, dep_year;
+			String date_of_departure = "24-10-2020";
+			
+				//Split date
+			String dateArray[]= date_of_departure.split("-");
+				dep_date = dateArray[0];
+				dep_month = dateArray[1];
+				dep_year = dateArray[2];
+				
+				System.out.println(dep_date);
+				System.out.println(dep_month);
+				System.out.println(dep_year);
+			
+				//Convert into mm/yyyy format
+				String mmyy = (dep_month+"/"+dep_year);
+				System.out.println("Value is "+mmyy);	
+			
+				driver.findElement(By.id("mat-input-2")).click();
+								
+				
+				WebElement month_year_display = driver.findElement(bySearchButton);
+				
+				String month_year_display = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/mat-datepicker-content/mat-calendar/mat-calendar-header/div/div/button[1]/span")).getText();
+				
+				// /html/body/div[1]/div[2]/div/mat-datepicker-content/mat-calendar/mat-calendar-header/div/div/button[1]/span
+				
+				//button[@aria-label='Next month']
+				
+				System.out.println("working till here");
+				System.out.println(month_year_display);
+			
+				int a;
+				for(a = 0; a <= 20; a++)
+				{
+					while(month_year_display.equals(mmyy))
+			    	  		{
+					 			System.out.println("Matched: "+ month_year_display+ " = "+mmyy);
+					 			break;
+			    	  		}
+				 			
+				 				{
+				 					driver.findElement(By.xpath("//button[@aria-label='Next month']")).click();
+				 					System.out.println("No Match");
+				 				}
+				}
+			}
+
+		}
+			
+			/*try     
+		    {       
+		      while(true)   
+		      	{             
+		    	  if(month_year_display.equals(mmyy))
+		            {
+		    		  	WebElement date_display = driver.findElement(By.className("mat-calendar-body"));
+						List<WebElement> rows = date_display.findElements(By.tagName("tr"));
+						List<WebElement> cols = date_display.findElements(By.tagName("td"));			
+						int rows_count = rows.size();
+						int cols_count = cols.size();	
+						System.out.println(cols_count);
+							for(int i= 1; i<=cols_count; i++)
+								{
+								if ((cols.get(i).getText()).equals(dep_date))
+										{
+									 	cols.get(i).click();
+									 	System.out.println("Matchfound");
+									 	break;
+										}
+										System.out.println(dep_year);
+								}
+		            	}
+		    	  driver.findElement(By.xpath("//button[@aria-label='Next month']")).click();
+		    	  
+		      	}
+		    }
+		      		catch(Exception e)
+		      	{
+		      		e.printStackTrace();
+		      	}
+			}
+	}
+
+=================================================================================================================================================
+
+
+String dep_date, dep_month, dep_year, month;
+				
+				//Split date
+				String dateArray[]= date_of_departure.split("-");
+				dep_date = dateArray[0];
+				dep_month = dateArray[1];
+				dep_year = dateArray[2];
+				Thread.sleep(2000);
+				
+		
+				switch (Integer.parseInt(dep_month))
+			    	{
+			        case 1:
+			            month = "Jan";
+			            break;
+			        case 2:
+			            month = "Feb";
+			            break;
+			        case 3:
+			            month = "Mar";
+			            break;
+			        case 4:
+			            month = "Apr";
+			            break;
+			        case 5:
+			            month = "May";
+			            break;
+			        case 6:
+			            month = "Jun";
+			            break;
+			        case 7:
+			            month = "Jul";
+			            break;
+			        case 8:
+			            month = "Aug";
+			            break;
+			        case 9:
+			            month = "Sep";
+			            break;
+			        case 10:
+			            month = "Oct";
+			            break;
+			        case 11:
+			            month = "Nov";
+			            break;
+			        case 12:
+			            month = "Dec";
+			            break;
+			    }
+
+					fhp_departure_date.click();
+					fhp_Departure_Date_selectyeardropdown.click();
+			        
+								
+					//Select year = dep_year
+					try
+					{
+					WebElement table = driver.findElement(By.className("mat-calendar-body"));
+					List<WebElement> rows = table.findElements(By.tagName("tr"));
+					List<WebElement> cols = table.findElements(By.tagName("td"));			
+					int rows_count = rows.size();
+					int cols_count = cols.size();	
+System.out.println(rows_count);
+System.out.println(cols_count);
+							for(int i= 1; i<=rows_count; i++)
+								{
+								for (int j=1; j<=cols_count; j++)
+									{
+									if ((cols.get(j).getText()).equals(dep_year))
+										{
+									 	cols.get(j).click();
+System.out.println("Matchfound");
+									 	break;
+										}
+System.out.println(dep_year);
+									}
+System.out.println("Read1");
+								}
+							}
+								catch(Exception e)
+								{
+									e.printStackTrace();
+								}
+					
+							
+					driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+					
+					//Select Month
+				try
+					{
+					WebElement month_table = driver.findElement(By.xpath("/html/body/div[1]/div[2]/div/mat-datepicker-content/mat-calendar/div/mat-multi-year-view/table/tbody"));
+					List<WebElement> mrows = month_table.findElements(By.tagName("tr"));
+					List<WebElement> ncols = month_table.findElements(By.tagName("td"));	
+					int mrows_count = mrows.size();
+					int ncols_count = ncols.size();	
+System.out.println(mrows_count);
+System.out.println(ncols_count);
+							for(int m = 1; m<=mrows_count; m++)
+								{
+								for (int n = 1; n<=ncols_count; n++)
+									{
+										if ((ncols.get(n).getText()).equals(dep_month))
+										{
+										ncols.get(n).click();
+System.out.println("Matchfound");
+										break;
+										}
+System.out.println(dep_month);
+
+									}
+								}
+					}
+				catch (Exception StaleElementReferenceException)
+				{
+					StaleElementReferenceException.printStackTrace();
+				}
+			}	
